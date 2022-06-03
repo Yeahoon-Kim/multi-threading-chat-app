@@ -1,0 +1,6 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory '/home/yeahoon/experience/sub53'
+make: Leaving directory '/home/yeahoon/experience/sub53'
+ 
+make: *** No targets specified and no makefile found.  Stop.
+
