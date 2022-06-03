@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <pthread.h>
 #include <errno.h>
 
 #include <arpa/inet.h>
@@ -18,28 +19,48 @@
 #define ACCEPT_ERROR_MSG "** Error while accept a connections on a socket\n"
 #define CLOSE_ERROR_MSG "** Error while closing socket\n"
 
-#define DISCONNECTION_MSG "Disconnected\n"
+#define PTHREAD_CREATE_ERROR_MSG "** Error while create thread for chatting\n"
 
+#define CONNECTION_MSG "%s is connected\n"
+#define DISCONNECTION_MSG "%s is disconnected\n"
+
+/* Fixed buffer size */
 #define MAX_BUF 1024
 
+/* Return value for socketInit function in both server and client */
 #define SUCCESS 0
 #define FAILURE -1
 
+/* Return value for recvMessage */
 #define RECV_SUCCESS 1
 #define RECV_FAILURE -1
 #define RECV_END 0
 
+/* Return value for sendMessage and scanAndSendMessage function */
 #define SEND_SUCCESS 1
 #define SEND_FAILURE -1
 #define SEND_END 0
 
+/* Return value for chatting function in both server and client */
 #define CHATTING_SUCCESS 0
 #define CHATTING_FAILURE -1
 
+/* Return value for setting function in both server and client */
 #define SETTING_SUCCESS 0
 #define SETTING_FAILURE -1
+
+// Make code clear
+#define true 1
+#define false 0
+#define and &&
+#define or ||
+
+// For debugging
+#define DEBUG
 
 void handleError(int fd, const char * msg);
 
 int recvMessage(int sockfd, char* buffer, int bufLen);
 int sendMessage(int sockfd, char* buffer, int bufLen);
+
+int scanAndSendMessage(int sockfd, char* buffer, int bufLen);

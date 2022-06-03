@@ -2,11 +2,36 @@
 
 /*
 * Handle Keyboard Interrupt
+* Close welcomming socket
+* Send all of clients "QUIT" message and close all of connections with clients
 * Use serverSocketDescriptor in global variable
 */
-void clientInterruptHandler(int signo) {
+void serverInterruptHandler(int signo) {
     if(signo == SIGINT) {
-        close(serverSocketDescriptor);
+        if(close(serverSocketDescriptor)) {
+            printf(CLOSE_ERROR_MSG);
+            exit(EXIT_FAILURE);
+        }
+
+        
+        broadcast(0, "QUIT\n", true);   // Send "QUIT" message to all of clients
+        
+#ifdef DEBUG
+        printf("[*] Successfully broadcast \"QUIT\"\n");
+#endif
+        // Use conset variable which is global variable
+        // Use mutex for prevent race condition vulnerability
+        pthread_mutex_lock(&mutex);
+        for(int i = 0; i < CLIENTNUM; i++) {
+            if(conset[i].sockfd == EMPTYSOCKET) continue;
+
+            if(close(conset[i].sockfd)) {
+                printf(CLOSE_ERROR_MSG);
+                exit(EXIT_FAILURE);
+            }
+        }
+        pthread_mutex_unlock(&mutex);
+
         puts("");
         exit(EXIT_SUCCESS);
     }
@@ -29,8 +54,12 @@ int socketInit(struct sockaddr_in* sockAddr, char *port) {
     errno = 0;
     char* endPtr = 0;
 
+#ifdef DEBUG
+    puts("[*] socketInit function");
+#endif
+
     __uint16_t intPort = (__uint16_t)strtoul(port, &endPtr, 10);        // Change string type port to number
-    if(port == endPtr || errno == ERANGE || *endPtr) return FAILURE;                      // Error detection
+    if(port == endPtr or errno == ERANGE or *endPtr) return FAILURE;                      // Error detection
 
     sockAddr->sin_family = AF_INET;
     (sockAddr->sin_addr).s_addr = htonl(INADDR_ANY);                    // Change byte order to network order
@@ -56,9 +85,11 @@ void printConnectionSuccessful(struct sockaddr_in* clientSocket) {
 * port                   : String type port number
 */
 int serverSocketSetting(int* serverSocketDescriptor, char* port) {
-    struct sockaddr_in serverSocket = { 0 }, clientSocket = { 0 };
-    socklen_t clientSocketLength = sizeof(clientSocket);
-    int clientSocketDescriptor;
+    struct sockaddr_in serverSocket = { 0 };
+
+#ifdef DEBUG
+    puts("[*] serverSocketSetting function");
+#endif
 
     // Create socket
     *serverSocketDescriptor = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
@@ -85,47 +116,118 @@ int serverSocketSetting(int* serverSocketDescriptor, char* port) {
         return SETTING_FAILURE;
     }
 
-    // Accept
-    clientSocketDescriptor = accept(*serverSocketDescriptor, (struct sockaddr*)&clientSocket, &clientSocketLength);
-    if(clientSocketDescriptor < 0) {
-        handleError(*serverSocketDescriptor, ACCEPT_ERROR_MSG);
-        return SETTING_FAILURE;
-    }
-
-    printConnectionSuccessful(&clientSocket);
-    return clientSocketDescriptor;
+    return SETTING_SUCCESS;
 }
 
 /*
-* Chatting with connected client
-* serverSocketDescriptor : Server-side socket file descriptor
-* clientSocketDescriptor : Client-side socket file descriptor
+* Check connection and broadcast received data
+* params : client box which has index and client socket address
 */
-int chattingServer(int serverSocketDescriptor, int clientSocketDescriptor) {
-    char inBuf[MAX_BUF] = { 0 }, outBuf[MAX_BUF] = { 0 };
+void* threadConnection(void* params) {
+    char infoBuf[MAX_BUF] = { 0 }, msgBuf[MAX_BUF + 22] = { 0 }, nickName[MAX_NICKNAME_LENGTH] = { 0 };
+    CLIENTBOX cb = *(CLIENTBOX *) params; // Copy client box to its stack
     __int8_t flag;
 
-    while( 1 ) {
-        flag = recvMessage(clientSocketDescriptor, inBuf, MAX_BUF);
+#ifdef DEBUG
+    puts("[*] threadConnection function");
+#endif
+
+    // Print connection is successful to standard output
+    printConnectionSuccessful(&cb.clientSocket);
+
+    // Receive the client's nickname and broadcast including connected client
+    recv(conset[cb.idx].sockfd, nickName, MAX_NICKNAME_LENGTH, 0);
+
+#ifdef DEBUG
+    printf("[*] USer nickname: %s\n", nickName);
+#endif
+
+    snprintf(infoBuf, MAX_BUF, CONNECTION_MSG, nickName);
+    broadcast(conset[cb.idx].sockfd, infoBuf, true);
+    printf("%s", infoBuf);
+
+    while( true ) {
+        // Receive message from client
+        flag = recvMessage(conset[cb.idx].sockfd, infoBuf, MAX_BUF);
+
+#ifdef DEBUG
+        printf("[*] Received message: %s\n", infoBuf);
+#endif
+
+        // Manage failure
         if(flag == RECV_FAILURE) {
-            handleError(serverSocketDescriptor, SERVER_RECV_ERROR_MSG);
-            return CHATTING_FAILURE;
+            fputs(SERVER_RECV_ERROR_MSG, stderr);
+            continue;
         }
 
+        // Manage disconnection
         else if(flag == RECV_END) {
-            printf(DISCONNECTION_MSG);
-            return CHATTING_SUCCESS;
+            // Broad disconnection message including disconnected client
+            snprintf(infoBuf, MAX_BUF, DISCONNECTION_MSG, nickName);
+            broadcast(conset[cb.idx].sockfd, infoBuf, true);
+
+            // Prevent being closed socket from being used
+            pthread_mutex_lock(&mutex);
+
+            // Close its socket
+            close(conset[cb.idx].sockfd);
+            conset[cb.idx].sockfd = EMPTYSOCKET;
+            connectedNum--;
+
+            pthread_mutex_unlock(&mutex);
+
+            break;
         }
 
-        flag = sendMessage(clientSocketDescriptor, outBuf, MAX_BUF);
+        // Normal message
+        snprintf(msgBuf, MAX_BUF + 22, "%s: %s", nickName, infoBuf);
+        broadcast(conset[cb.idx].sockfd, msgBuf, false);
+
+#ifdef DEBUG
+        puts("[*] Successfully printed message");
+        printf("[*] %s", msgBuf);
+#endif
+    }
+}
+
+/*
+* Broadcast message to all connected clients
+* fd         : sending client's file descriptor
+* str        : message want to be broadcasted
+* isMirrored : decide whether message is broadcasted including sending client
+*/
+int broadcast(int fd, char* str, int isMirrored) {
+    int i, strLen = strlen(str);
+    __int8_t flag;
+
+#ifdef DEBUG
+    puts("[*] broadcast function");
+    printf("[*] str: %s", str);
+#endif
+
+    // Prevent others from using socket while this function uses it
+    pthread_mutex_lock(&mutex);
+
+    for(i = 0; i < CLIENTNUM; i++) {
+        if((conset[i].sockfd == fd and !isMirrored) or conset[i].sockfd == EMPTYSOCKET) continue;
+        
+#ifdef DEBUG
+        printf("[*] Send message to index %d\n", i);
+#endif
+
+        flag = sendMessage(conset[i].sockfd, str, strLen);
+
         if(flag == SEND_FAILURE) {
-            handleError(serverSocketDescriptor, SERVER_SEND_ERROR_MSG);
-            return CHATTING_FAILURE;
-        }
-
-        else if(flag == SEND_END) {
-            printf(DISCONNECTION_MSG);
-            return CHATTING_SUCCESS;
+#ifdef DEBUG
+            puts("[*] Retransmission");
+#endif
+            // Retransmission
+            i--;
+            continue;
         }
     }
+
+    pthread_mutex_unlock(&mutex);
+
+    return CHATTING_SUCCESS;
 }

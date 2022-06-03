@@ -5,7 +5,8 @@
 CC = gcc
 CFLAGS = -W -Wall
 OBJECTS = ../chatProgram.o chatServer.o main.o
-TARGET = chatServer
+TARGET = ../bin/chatServer
+LIBS = -lpthread
 
 # TARGET 파일이 여러 개일 때 사용
 all: $(TARGET)
@@ -14,7 +15,7 @@ main.o: ../chatProgram.h ../chatProgram.c chatServer.h chatServer.c main.c
 chatServer.o: ../chatProgram.h ../chatProgram.c chatServer.h
 
 $(TARGET): $(OBJECTS)
-	$(CC) $(CFLAGS) -o ../$(@) $(OBJECTS)
+	$(CC) $(CFLAGS) -o ../$(@) $(OBJECTS) $(LIBS)
 
 # 더미 타겟
 clean: 
