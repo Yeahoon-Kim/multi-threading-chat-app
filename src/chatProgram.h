@@ -56,7 +56,7 @@
 #define or ||
 
 // For debugging
-#define DEBUG
+// #define DEBUG
 
 void handleError(int fd, const char * msg);
 
