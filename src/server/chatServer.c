@@ -12,7 +12,6 @@ void serverInterruptHandler(int signo) {
             printf(CLOSE_ERROR_MSG);
             exit(EXIT_FAILURE);
         }
-
         
         broadcast(0, "QUIT\n", true);   // Send "QUIT" message to all of clients
         

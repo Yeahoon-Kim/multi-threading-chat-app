@@ -21,7 +21,7 @@ int recvMessage(int sockfd, char* buffer, int bufLen) {
     int inputLength = recv(sockfd, buffer, bufLen - 1, 0);  // Receive message from socket
     if(inputLength <= 0) return RECV_FAILURE;               // Return error if message length is zero
 
-    buffer[inputLength] = '\0';                             // Remove line feed character
+    buffer[inputLength] = '\0';                             // Add NULL character to make clear message
 
     if(!strncmp(buffer, "QUIT", 4)) return RECV_END;        // Quit connection
     else return RECV_SUCCESS;
@@ -49,7 +49,7 @@ int scanAndSendMessage(int sockfd, char* buffer, int bufLen) {
     int inputLength = read(0, buffer, bufLen - 1);          // Receive message from user
     if(inputLength <= 0) return SEND_FAILURE;               // Return error if message length is zero
 
-    buffer[inputLength] = '\0';                             // Remove line feed character
+    buffer[inputLength] = '\0';                             // Add NULL character to make clear message
 
     send(sockfd, buffer, inputLength, 0);                   // Send message to socket
     if(!strncmp(buffer, "QUIT", 4)) return SEND_END;        // Quit connection

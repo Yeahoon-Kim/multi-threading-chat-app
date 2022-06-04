@@ -166,7 +166,10 @@ int chattingClient(char* nickname) {
 
     while( true ) {
         // Check if threadReceive function is terminated and escape loop
-        if(isRecvThreadTerminate == true) break;
+        if(isRecvThreadTerminate == true) {
+            puts("** Server Terminated!");
+            break;
+        }
 
         // Receive message from user and send it to server 
         flag = scanAndSendMessage(clientSocketDescriptor, sendBuf, MAX_BUF);
