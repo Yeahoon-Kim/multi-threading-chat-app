@@ -164,6 +164,8 @@ void* threadConnection(void* params) {
             // Broad disconnection message including disconnected client
             snprintf(infoBuf, MAX_BUF, DISCONNECTION_MSG, nickName);
             broadcast(conset[cb.idx].sockfd, infoBuf, true);
+            puts(infoBuf);
+            
             sendMessage(conset[cb.idx].sockfd, "QUIT\n", 5);
 
             // Prevent being closed socket from being used
