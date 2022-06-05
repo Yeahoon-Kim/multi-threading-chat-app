@@ -56,7 +56,7 @@
 #define or ||
 
 // For debugging
-#define DEBUG
+// #define DEBUG
 
 void handleError(const int sockfd, const char * msg, const int sendQUIT);
 
