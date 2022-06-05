@@ -35,9 +35,17 @@ int main(int argc, char *argv[]) {
         // Accept
         clientSocketDescriptor = accept(serverSocketDescriptor, (struct sockaddr*)&clientSocket, &clientSocketLength);
 
-        // Check if accept is successful and if there exist any empty sockets available
-        if(clientSocketDescriptor < 0 or connectedNum >= CLIENTNUM) {
+        // Check if accept is successful
+        if(clientSocketDescriptor < 0) {
             handleError(clientSocketDescriptor, ACCEPT_ERROR_MSG, true);
+            continue;
+        }
+
+        // Check if there exist any empty sockets available
+        if(connectedNum >= CLIENTNUM) {
+            sendMessage(clientSocketDescriptor, CLIENT_MAX_INFO_MSG, strlen(CLIENT_MAX_INFO_MSG));
+            sleep(3);   // Sleep for not sending previous message and next message together
+            handleError(clientSocketDescriptor, SERVER_TOO_MANY_CLIENT_MSG, true);
             continue;
         }
 

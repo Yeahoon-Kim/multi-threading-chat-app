@@ -9,6 +9,9 @@
 
 #define SERVER_RECV_ERROR_MSG "** Server : Error while receive message from client\n"
 #define SERVER_SEND_ERROR_MSG "** Server : Error while send message to client\n"
+#define SERVER_TOO_MANY_CLIENT_MSG "** Server : Too many clients are trying to connect\n"
+
+#define CLIENT_MAX_INFO_MSG "Connection failed because of too many clients already connected\n"
 
 #define SERVER_CONNECTION_MSG "Connection from %s:%hu\n"
 

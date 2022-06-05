@@ -8,7 +8,7 @@
 */
 void handleError(const int sockfd, const char * msg, const int sendQUIT) {
     fputs(msg, stderr);                                     // Print error message
-    if(sendQUIT == true) sendMessage(sockfd, "QUIT", 4);    // Send QUIT message
+    if(sendQUIT == true) sendMessage(sockfd, "QUIT\n", 5);    // Send QUIT message
     close(sockfd);                                          // Close socket file descriptor
 }
 

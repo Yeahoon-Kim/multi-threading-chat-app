@@ -8,7 +8,6 @@ void clientInterruptHandler(const int signo) {
     if(signo == SIGINT) {
         sendMessage(clientSocketDescriptor, "QUIT\n", 5);
 
-        close(clientSocketDescriptor);
         putchar('\n');
         exit(EXIT_SUCCESS);
     }
