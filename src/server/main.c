@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
 
         // Check if accept is successful and if there exist any empty sockets available
         if(clientSocketDescriptor < 0 or connectedNum >= CLIENTNUM) {
-            handleError(clientSocketDescriptor, ACCEPT_ERROR_MSG);
+            handleError(clientSocketDescriptor, ACCEPT_ERROR_MSG, true);
             continue;
         }
 

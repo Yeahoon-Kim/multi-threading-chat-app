@@ -27,15 +27,15 @@ extern volatile int connectedNum;
 extern pthread_mutex_t mutex;
 extern CONSET conset[CLIENTNUM];
 
-void serverInterruptHandler(int signo);
+void serverInterruptHandler(const int signo);
 
 void printUsageError();
 
-int socketInit(struct sockaddr_in* sockAddr, char *port);
+int socketInit(struct sockaddr_in* sockAddr, const char *port);
 
-void printConnectionSuccessful(struct sockaddr_in *clientSocket);
-int serverSocketSetting(int* serverSocketDescriptor, char* port);
+void printConnectionSuccessful(const struct sockaddr_in *clientSocket);
+int serverSocketSetting(int* serverSocketDescriptor, const char* port);
 
 void* threadConnection(void* params);
 
-int broadcast(int fd, char* str, int isMirrored);
+int broadcast(const int fd, const char* str, const int isMirrored);

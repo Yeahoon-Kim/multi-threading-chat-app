@@ -6,7 +6,7 @@
 * Send all of clients "QUIT" message and close all of connections with clients
 * Use serverSocketDescriptor in global variable
 */
-void serverInterruptHandler(int signo) {
+void serverInterruptHandler(const int signo) {
     if(signo == SIGINT) {
         if(close(serverSocketDescriptor)) {
             printf(CLOSE_ERROR_MSG);
@@ -49,7 +49,7 @@ void printUsageError() {
 * sockAddr : Socket struct
 * port     : String type port
 */
-int socketInit(struct sockaddr_in* sockAddr, char *port) {
+int socketInit(struct sockaddr_in* sockAddr, const char *port) {
     errno = 0;
     char* endPtr = 0;
 
@@ -71,7 +71,7 @@ int socketInit(struct sockaddr_in* sockAddr, char *port) {
 * Print connection success message
 * clientSocket : Client-side socket for printing IP and port number
 */
-void printConnectionSuccessful(struct sockaddr_in* clientSocket) {
+void printConnectionSuccessful(const struct sockaddr_in* clientSocket) {
     __uint16_t port = ntohs(clientSocket->sin_port);                    // Change byte order to host order
     char* IP = inet_ntoa(clientSocket->sin_addr);                       // Change IP type to string
 
@@ -83,7 +83,7 @@ void printConnectionSuccessful(struct sockaddr_in* clientSocket) {
 * serverSocketDescriptor : Server-side socket file descriptor
 * port                   : String type port number
 */
-int serverSocketSetting(int* serverSocketDescriptor, char* port) {
+int serverSocketSetting(int* serverSocketDescriptor, const char* port) {
     struct sockaddr_in serverSocket = { 0 };
 
 #ifdef DEBUG
@@ -99,19 +99,19 @@ int serverSocketSetting(int* serverSocketDescriptor, char* port) {
 
     // Initialize socket
     if(socketInit(&serverSocket, port) == FAILURE) {
-        handleError(*serverSocketDescriptor, INIT_SOCKET_ERROR_MSG);
+        handleError(*serverSocketDescriptor, INIT_SOCKET_ERROR_MSG, false);
         return SETTING_FAILURE;
     }
 
     // Bind a name to a server socket
     if(bind(*serverSocketDescriptor, (struct sockaddr *)&serverSocket, (socklen_t)sizeof(serverSocket))) {
-        handleError(*serverSocketDescriptor, BIND_SOCKET_ERROR_MSG);
+        handleError(*serverSocketDescriptor, BIND_SOCKET_ERROR_MSG, false);
         return SETTING_FAILURE;
     }
 
     // Listen for connections on a socket
     if(listen(*serverSocketDescriptor, BACKLOG)) {
-        handleError(*serverSocketDescriptor, LISTEN_ERROR_MSG);
+        handleError(*serverSocketDescriptor, LISTEN_ERROR_MSG, false);
         return SETTING_FAILURE;
     }
 
@@ -138,7 +138,7 @@ void* threadConnection(void* params) {
     recv(conset[cb.idx].sockfd, nickName, MAX_NICKNAME_LENGTH, 0);
 
 #ifdef DEBUG
-    printf("[*] USer nickname: %s\n", nickName);
+    printf("[*] User nickname: %s\n", nickName);
 #endif
 
     snprintf(infoBuf, MAX_BUF, CONNECTION_MSG, nickName);
@@ -150,7 +150,7 @@ void* threadConnection(void* params) {
         flag = recvMessage(conset[cb.idx].sockfd, infoBuf, MAX_BUF);
 
 #ifdef DEBUG
-        printf("[*] Received message: %s\n", infoBuf);
+        printf("[*] Received flag: %d\n", flag);
 #endif
 
         // Manage failure
@@ -164,6 +164,7 @@ void* threadConnection(void* params) {
             // Broad disconnection message including disconnected client
             snprintf(infoBuf, MAX_BUF, DISCONNECTION_MSG, nickName);
             broadcast(conset[cb.idx].sockfd, infoBuf, true);
+            sendMessage(conset[cb.idx].sockfd, "QUIT\n", 5);
 
             // Prevent being closed socket from being used
             pthread_mutex_lock(&mutex);
@@ -195,7 +196,7 @@ void* threadConnection(void* params) {
 * str        : message want to be broadcasted
 * isMirrored : decide whether message is broadcasted including sending client
 */
-int broadcast(int fd, char* str, int isMirrored) {
+int broadcast(const int fd, const char* str, const int isMirrored) {
     int i, strLen = strlen(str);
     __int8_t flag;
 

@@ -4,7 +4,7 @@
 * Handle Keyboard Interrupt
 * Use clientSocketDescriptor in global variable
 */
-void clientInterruptHandler(int signo) {
+void clientInterruptHandler(const int signo) {
     if(signo == SIGINT) {
         sendMessage(clientSocketDescriptor, "QUIT\n", 5);
 
@@ -35,7 +35,7 @@ void printUserNameLengthError() {
 * IP       : String type IP
 * port     : String type port
 */
-int socketInit(struct sockaddr_in* sockAddr, char* IP, char *port) {
+int socketInit(struct sockaddr_in* sockAddr, const char* IP, const char *port) {
     errno = 0;
     char* endPtr = 0;
     in_addr_t IPNum;
@@ -63,7 +63,7 @@ int socketInit(struct sockaddr_in* sockAddr, char* IP, char *port) {
 * IP                     : String type IP
 * port                   : String type port number 
 */
-int clientSocketSetting(char* IP, char* port) {
+int clientSocketSetting(const char* IP, const char* port) {
     struct sockaddr_in serverSocket = { 0 };
 
 #ifdef DEBUG
@@ -77,12 +77,12 @@ int clientSocketSetting(char* IP, char* port) {
     }
 
     if(socketInit(&serverSocket, IP, port) == FAILURE) {
-        handleError(clientSocketDescriptor, INIT_SOCKET_ERROR_MSG);
+        handleError(clientSocketDescriptor, INIT_SOCKET_ERROR_MSG, false);
         return SETTING_FAILURE;
     }
 
     if(connect(clientSocketDescriptor, (struct sockaddr*)&serverSocket, sizeof(serverSocket))) {
-        handleError(clientSocketDescriptor, CLIENT_CONNECT_ERROR_MSG);
+        handleError(clientSocketDescriptor, CLIENT_CONNECT_ERROR_MSG, false);
         return SETTING_FAILURE;
     }
 
@@ -112,7 +112,6 @@ void* threadReceive(void* params) {
         flag = recvMessage(clientSocketDescriptor, recvBuf, MAX_BUF);
 
 #ifdef DEBUG
-        printf("[*] Received message: %s", recvBuf);
         printf("[*] Received flag: %d\n", flag);
 #endif
         // In case of failure
@@ -143,7 +142,7 @@ void* threadReceive(void* params) {
 * Chatting with connected server
 * nickname : User nickname
 */
-int chattingClient(char* nickname) {
+int chattingClient(const char* nickname) {
     char sendBuf[MAX_BUF] = { 0 };
     pthread_t tid;
     __int8_t flag;
@@ -155,7 +154,7 @@ int chattingClient(char* nickname) {
     isRecvThreadTerminate = false;
 
     // Make thread for receive message from server
-    pthread_create(&tid, NULL, (void*(*)(void *))threadReceive, nickname);
+    pthread_create(&tid, NULL, (void*(*)(void *))threadReceive, (void*)nickname);
 
     // Send user nickname to server
     sendMessage(clientSocketDescriptor, nickname, strlen(nickname));
@@ -179,7 +178,7 @@ int chattingClient(char* nickname) {
 #endif
         // In case of failure
         if(flag == SEND_FAILURE) {
-            handleError(clientSocketDescriptor, CLIENT_SEND_ERROR_MSG);
+            handleError(clientSocketDescriptor, CLIENT_SEND_ERROR_MSG, true);
             return CHATTING_FAILURE;
         }
 

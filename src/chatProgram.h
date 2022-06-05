@@ -56,11 +56,11 @@
 #define or ||
 
 // For debugging
-// #define DEBUG
+#define DEBUG
 
-void handleError(int fd, const char * msg);
+void handleError(const int sockfd, const char * msg, const int sendQUIT);
 
-int recvMessage(int sockfd, char* buffer, int bufLen);
-int sendMessage(int sockfd, char* buffer, int bufLen);
+int recvMessage(const int sockfd, char* buffer, const int bufLen);
+int sendMessage(const int sockfd, const char* buffer, const int bufLen);
 
-int scanAndSendMessage(int sockfd, char* buffer, int bufLen);
+int scanAndSendMessage(const int sockfd, char* buffer, const int bufLen);

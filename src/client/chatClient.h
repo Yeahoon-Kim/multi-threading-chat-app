@@ -16,9 +16,9 @@ void clientInterruptHandler(int signo);
 void printUsageError();
 void printUserNameLengthError();
 
-int socketInit(struct sockaddr_in* sockAddr, char* IP, char *port);
+int socketInit(struct sockaddr_in* sockAddr, const char* IP, const char *port);
 
-int clientSocketSetting(char* IP, char* port);
-int chattingClient(char* nickname);
+int clientSocketSetting(const char* IP, const char* port);
+int chattingClient(const char* nickname);
 
 void* threadReceive(void* params);
