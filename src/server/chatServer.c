@@ -184,6 +184,7 @@ void* threadConnection(void* params) {
         // Normal message
         snprintf(msgBuf, MAX_BUF + 22, "%s: %s", nickName, infoBuf);
         broadcast(conset[cb.idx].sockfd, msgBuf, false);
+        printf("%s", msgBuf);
 
 #ifdef DEBUG
         puts("[*] Successfully printed message");

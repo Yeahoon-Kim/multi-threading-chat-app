@@ -1,5 +1,7 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 make -C server all
+ 
+# make[1]: Entering directory '/home/yeahoon/experience/sub53/src/server'
 # GNU Make 4.2.1
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2016 Free Software Foundation, Inc.
@@ -7,7 +9,7 @@ make -C server all
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sun Jun  5 17:42:53 2022
+# Make data base, printed on Mon Jun  6 08:57:40 2022
 
 # Variables
 
@@ -60,7 +62,7 @@ XDG_RUNTIME_DIR = /mnt/wslg/runtime-dir
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-2c20714b-8543-46cd-9e50-4b9c42bc99ac.sock
+VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-c1df7f1b-885a-4ebf-a9f6-b63326b6276c.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -80,7 +82,7 @@ WSL_INTEROP = /run/WSL/8_interop
 # environment
 PULSE_SERVER = /mnt/wslg/PulseServer
 # environment
-WT_SESSION = e431c20c-94c4-4b29-bd12-613896691ae7
+WT_SESSION = 13d31be7-9150-4127-ba2e-ffa3756c7e2b
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
@@ -132,6 +134,9 @@ MFLAGS = -pqrRw
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # automatic
+ 
+make[1]: *** No rule to make target '../chatProgram.o', needed by '../bin/chatServer'.  Stop.
+
 +F = $(notdir $+)
 # environment
 VSCODE_HANDLES_SIGPIPE = true
@@ -170,7 +175,7 @@ WSL_DISTRO_NAME = Ubuntu
 # environment
 MOTD_SHOWN = update-motd
 # variable set hash-table stats:
-# Load=79/1024=8%, Rehash=0, Collisions=5/117=4%
+# Load=79/1024=8%, Rehash=0, Collisions=5/110=5%
 
 # Pattern-specific Variable Values
 
@@ -178,9 +183,9 @@ MOTD_SHOWN = update-motd
 
 # Directories
 
-# . (device 2080, inode 53933): 8 files, no impossibilities.
+# . (device 2080, inode 53933): 6 files, no impossibilities.
 
-# 8 files, no impossibilities in 1 directories.
+# 6 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -190,20 +195,16 @@ MOTD_SHOWN = update-motd
 
 # Not a target:
 chatServer.c:
-#  Implicit rule search has been done.
-#  Last modified 2022-06-04 18:07:22.253933612
-#  File has been updated.
-#  Successfully updated.
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 all: ../bin/chatServer
 #  Phony target (prerequisite of .PHONY).
 #  Command line target.
 #  Implicit rule search has not been done.
 #  File does not exist.
-#  File has been updated.
-#  Needs to be updated (-q is set).
-# variable set hash-table stats:
-# Load=0/32=0%, Rehash=0, Collisions=0/7=0%
+#  File has not been updated.
 
 .PHONY: all clean
 #  Implicit rule search has not been done.
@@ -212,57 +213,28 @@ all: ../bin/chatServer
 
 # Not a target:
 main.c:
-#  Implicit rule search has been done.
-#  Last modified 2022-06-04 17:59:06.253949084
-#  File has been updated.
-#  Successfully updated.
-
-# Not a target:
-chatServer.h:
-#  Implicit rule search has been done.
-#  Last modified 2022-06-04 17:50:12.503965733
-#  File has been updated.
-#  Successfully updated.
-
-# Not a target:
-../chatProgram.c:
-#  Implicit rule search has been done.
-#  Last modified 2022-06-04 18:23:06.243904166
-#  File has been updated.
-#  Successfully updated.
-
-../bin/chatServer: ../chatProgram.o chatServer.o main.o
-#  Implicit rule search has not been done.
-#  Implicit/static pattern stem: ''
-#  File does not exist.
-#  File has been updated.
-#  Needs to be updated (-q is set).
-# automatic
-# @ := ../bin/chatServer
-# automatic
-# % := 
-# automatic
-# * := 
-# automatic
-# + := ../chatProgram.o chatServer.o main.o
-# automatic
-# | := 
-# automatic
-# < := ../chatProgram.o
-# automatic
-# ^ := ../chatProgram.o chatServer.o main.o
-# automatic
-# ? := ../chatProgram.o chatServer.o main.o
-# variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=1/16=6%
-#  recipe to execute (from 'Makefile', line 18):
-	$(CC) $(CFLAGS) -o ../$(@) $(OBJECTS) $(LIBS)
-
-# Not a target:
-.SUFFIXES:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
+
+# Not a target:
+chatServer.h:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+../chatProgram.c:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+../bin/chatServer: ../chatProgram.o chatServer.o main.o
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 18):
+	$(CC) $(CFLAGS) -o ../$(@) $(OBJECTS) $(LIBS)
 
 # Not a target:
 Makefile:
@@ -273,11 +245,9 @@ Makefile:
 
 # Not a target:
 ../chatProgram.h:
-#  Implicit rule search has been done.
- 
-#  Last modified 2022-06-04 17:56:08.403954631
-#  File has been updated.
-#  Successfully updated.
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
 .DEFAULT:
@@ -286,10 +256,9 @@ Makefile:
 #  File has not been updated.
 
 chatServer.o: ../chatProgram.h ../chatProgram.c chatServer.h
-#  Implicit rule search has been done.
-#  Last modified 2022-06-04 18:08:20.243931803
-#  File has been updated.
-#  Successfully updated.
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 clean:
 #  Phony target (prerequisite of .PHONY).
@@ -301,20 +270,18 @@ clean:
 	rm -f ../$(TARGET)
 
 main.o: ../chatProgram.h ../chatProgram.c chatServer.h chatServer.c main.c
-#  Implicit rule search has been done.
-#  Last modified 2022-06-04 18:08:20.263931802
-#  File has been updated.
-#  Successfully updated.
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
 ../chatProgram.o:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-04 18:08:20.193931805
-#  File has been updated.
-#  Successfully updated.
+#  File does not exist.
+#  File has not been updated.
 
 # files hash-table stats:
-# Load=15/1024=1%, Rehash=0, Collisions=0/42=0%
+# Load=15/1024=1%, Rehash=0, Collisions=0/41=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
@@ -324,11 +291,12 @@ main.o: ../chatProgram.h ../chatProgram.c chatServer.h chatServer.c main.c
 # strcache buffers: 1 (0) / strings = 20 / storage = 211 B / avg = 10 B
 # current buf: size = 8162 B / used = 211 B / count = 20 / avg = 10 B
 
-# strcache performance: lookups = 45 / hit rate = 55%
+# strcache performance: lookups = 42 / hit rate = 52%
 # hash-table stats:
-# Load=20/8192=0%, Rehash=0, Collisions=1/45=2%
-# Finished Make data base on Sun Jun  5 17:42:53 2022
+# Load=20/8192=0%, Rehash=0, Collisions=1/42=2%
+# Finished Make data base on Mon Jun  6 08:57:40 2022
 
+# make[1]: Leaving directory '/home/yeahoon/experience/sub53/src/server'
 # GNU Make 4.2.1
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2016 Free Software Foundation, Inc.
@@ -336,7 +304,7 @@ main.o: ../chatProgram.h ../chatProgram.c chatServer.h chatServer.c main.c
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sun Jun  5 17:42:53 2022
+# Make data base, printed on Mon Jun  6 08:57:40 2022
 
 # Variables
 
@@ -385,7 +353,7 @@ XDG_RUNTIME_DIR = /mnt/wslg/runtime-dir
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-2c20714b-8543-46cd-9e50-4b9c42bc99ac.sock
+VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-c1df7f1b-885a-4ebf-a9f6-b63326b6276c.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -405,7 +373,7 @@ WSL_INTEROP = /run/WSL/8_interop
 # environment
 PULSE_SERVER = /mnt/wslg/PulseServer
 # environment
-WT_SESSION = e431c20c-94c4-4b29-bd12-613896691ae7
+WT_SESSION = 13d31be7-9150-4127-ba2e-ffa3756c7e2b
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
@@ -501,9 +469,12 @@ MOTD_SHOWN = update-motd
 
 # Directories
 
-# . (device 2080, inode 52960): 9 files, no impossibilities.
+# . (device 2080, inode 52960): 8 files, no impossibilities.
 
-# 9 files, no impossibilities in 1 directories.
+ 
+make: *** [Makefile:12: server] Error 2
+
+# 8 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -552,8 +523,7 @@ server:
 #  Implicit/static pattern stem: ''
 #  File does not exist.
 #  File has been updated.
- 
-#  Needs to be updated (-q is set).
+#  Failed to be updated.
 # automatic
 # @ := server
 # automatic
@@ -577,7 +547,7 @@ server:
 
 chatProgram.o: chatProgram.c chatProgram.h
 #  Implicit rule search has been done.
-#  Last modified 2022-06-04 18:08:20.193931805
+#  File does not exist.
 #  File has been updated.
 #  Successfully updated.
 
@@ -596,14 +566,14 @@ clean: chatProgram.o server client
 # Not a target:
 chatProgram.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-04 18:23:06.243904166
+#  Last modified 2022-06-05 21:49:51.196188029
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 chatProgram.h:
 #  Implicit rule search has been done.
-#  Last modified 2022-06-04 17:56:08.403954631
+#  Last modified 2022-06-05 21:58:19.376172178
 #  File has been updated.
 #  Successfully updated.
 
@@ -618,9 +588,9 @@ chatProgram.h:
 # strcache buffers: 1 (0) / strings = 16 / storage = 146 B / avg = 9 B
 # current buf: size = 8162 B / used = 146 B / count = 16 / avg = 9 B
 
-# strcache performance: lookups = 40 / hit rate = 60%
+# strcache performance: lookups = 39 / hit rate = 58%
 # hash-table stats:
-# Load=16/8192=0%, Rehash=0, Collisions=1/40=2%
-# Finished Make data base on Sun Jun  5 17:42:53 2022
+# Load=16/8192=0%, Rehash=0, Collisions=1/39=3%
+# Finished Make data base on Mon Jun  6 08:57:40 2022
 
  

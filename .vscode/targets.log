@@ -8,7 +8,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Jun  3 15:33:47 2022
+# Make data base, printed on Mon Jun 13 17:17:42 2022
 
 # Variables
 
@@ -51,13 +51,13 @@ VSCODE_CWD = /mnt/c/Users/apple/AppData/Local/Programs/Microsoft VS Code
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
-PATH = /home/yeahoon/.vscode-server/bin/c3511e6c69bb39013c4a4b7b9566ec1ca73fc4d5/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files (x86)/VMware/VMware Player/bin/:/mnt/c/Program Files/Common Files/Oracle/Java/javapath:/mnt/c/windows/system32:/mnt/c/windows:/mnt/c/windows/System32/Wbem:/mnt/c/windows/System32/WindowsPowerShell/v1.0/:/mnt/c/windows/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/Java/jdk-18/bin:/mnt/c/Program Files/Bandizip/:/mnt/c/Program Files/Git/cmd:/mnt/c/Users/apple/AppData/Local/Programs/Python/Python310/python.exe:/mnt/c/Users/apple/AppData/Local/Programs/Python/Python310/Scripts/:/mnt/c/Users/apple/AppData/Local/Programs/Python/Python310/:/mnt/c/Users/apple/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/apple/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Users/apple/AppData/Local/GitHubDesktop/bin:/snap/bin
+PATH = /home/yeahoon/.vscode-server/bin/c3511e6c69bb39013c4a4b7b9566ec1ca73fc4d5/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/Common Files/Oracle/Java/javapath:/mnt/c/windows/system32:/mnt/c/windows:/mnt/c/windows/System32/Wbem:/mnt/c/windows/System32/WindowsPowerShell/v1.0/:/mnt/c/windows/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA NvDLISR:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Program Files/Java/jdk-18/bin:/mnt/c/Program Files/Bandizip/:/mnt/c/Program Files/Git/cmd:/mnt/c/Users/apple/AppData/Local/Programs/Python/Python310/python.exe:/mnt/c/Users/apple/AppData/Local/Programs/Python/Python310/Scripts/:/mnt/c/Users/apple/AppData/Local/Programs/Python/Python310/:/mnt/c/Users/apple/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/apple/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Users/apple/AppData/Local/GitHubDesktop/bin:/snap/bin
 # environment
 XDG_RUNTIME_DIR = /mnt/wslg/runtime-dir
 # environment
 VSCODE_LOG_STACK = false
 # environment
-VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-648ffbf1-8f72-46bd-8137-21a6a5c06958.sock
+VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-3db3d1e1-2703-4bf9-b919-5b037d9be579.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -77,7 +77,7 @@ WSL_INTEROP = /run/WSL/8_interop
 # environment
 PULSE_SERVER = /mnt/wslg/PulseServer
 # environment
-WT_SESSION = 6c65b332-31b0-4088-a79d-6f0a01a37203
+WT_SESSION = f44e3350-e55a-49cb-9656-62be72cb5db2
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
@@ -87,7 +87,7 @@ LESSCLOSE = /usr/bin/lesspipe %s %s
 # environment
 LOGNAME = yeahoon
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # automatic
@@ -158,8 +158,10 @@ TERM = xterm-256color
 VSCODE_EXTHOST_WILL_SEND_SOCKET = true
 # environment
 WSL_DISTRO_NAME = Ubuntu
+# environment
+MOTD_SHOWN = update-motd
 # variable set hash-table stats:
-# Load=73/1024=7%, Rehash=0, Collisions=4/95=4%
+# Load=74/1024=7%, Rehash=0, Collisions=4/96=4%
 
 # Pattern-specific Variable Values
 
@@ -167,9 +169,9 @@ WSL_DISTRO_NAME = Ubuntu
 
 # Directories
 
-# . (device 2080, inode 54021): 8 files, no impossibilities.
+# . (device 2080, inode 54021): 7 files, no impossibilities.
 
-# 8 files, no impossibilities in 1 directories.
+# 7 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -219,12 +221,12 @@ GNUmakefile:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 16 / storage = 126 B / avg = 7 B
-# current buf: size = 8162 B / used = 126 B / count = 16 / avg = 7 B
+# strcache buffers: 1 (0) / strings = 15 / storage = 121 B / avg = 8 B
+# current buf: size = 8162 B / used = 121 B / count = 15 / avg = 8 B
 
-# strcache performance: lookups = 19 / hit rate = 15%
+# strcache performance: lookups = 18 / hit rate = 16%
 # hash-table stats:
-# Load=16/8192=0%, Rehash=0, Collisions=1/19=5%
-# Finished Make data base on Fri Jun  3 15:33:47 2022
+# Load=15/8192=0%, Rehash=0, Collisions=1/18=6%
+# Finished Make data base on Mon Jun 13 17:17:42 2022
 
  
